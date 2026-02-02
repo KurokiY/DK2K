@@ -1,1 +1,34 @@
+#Install Plotly
+install.packages("plotly")
+library(plotly)
+library(ggplot2)
 
+getwd()
+setwd("/Users/yusukekuroki/Desktop/Quant/Week3")
+library(foreign)
+DK2K<-read.spss("DeKeyser2000.sav",to.data.frame = T)
+GJTS_ND <- DK2K$GJTScore - max(DK2K$GJTScore, na.rm = TRUE)
+DK2K$GJTS_ND <- GJTS_ND
+
+#Histogram
+library(ggplot2)
+p1 <- ggplot(data = DK2K, aes(x = GJTS_ND)) +
+    geom_histogram(binwidth = 0.5) +
+    scale_x_continuous(name = "GJT Scores", breaks = seq(-200, 0, 10)) +
+    scale_y_continuous(name = "Count", breaks = seq(0, 4, 1), limits = c(0, 4))
+
+ggplotly(p1)
+
+#Density plot
+p2 <- ggplot(data=DK2K, aes(x=GJTS_ND)) + 
+  geom_histogram(aes(y=..density..), colour="black", fill="white", binwidth = 0.5) +
+  geom_density(alpha=.2, fill="#FF6666") +
+  scale_x_continuous(name="GJT Scores", breaks=seq(-130,30,10), limits=c(-130,30)) 
+
+ggplotly(p2)
+
+# Q-Q plot
+qqnorm(DK2K$GJTS_ND, main = "GJTS_ND"); qqline(DK2K$GJTS_ND)
+
+# Statistical test for normality
+shapiro.test(DK2K$GJTS_ND)
