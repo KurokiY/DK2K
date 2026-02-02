@@ -4,7 +4,7 @@ library(plotly)
 library(ggplot2)
 
 getwd()
-setwd("/Users/yusukekuroki/Desktop/Quant/Week3")
+setwd("")
 library(foreign)
 DK2K<-read.spss("DeKeyser2000.sav",to.data.frame = T)
 GJTS_ND <- DK2K$GJTScore - max(DK2K$GJTScore, na.rm = TRUE)
