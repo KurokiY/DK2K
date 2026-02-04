@@ -1,3 +1,7 @@
+rm(list = ls(all.names = TRUE))
+getwd()
+setwd("/Users/yusukekuroki/Desktop/Quant/Week3")
+
 #Install Plotly
 install.packages("plotly")
 library(plotly)
@@ -6,10 +10,6 @@ library(ggplot2)
 =============================================================================================
 #Comparison of Under 15 and Over 15
 =============================================================================================
-
-getwd()
-setwd("/Users/yusukekuroki/Desktop/Quant/Week3")
-
 library(ggplot2)
 library(foreign)
 DK2K<-read.spss("DeKeyser2000.sav",to.data.frame = T)
