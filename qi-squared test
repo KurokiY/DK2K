@@ -9,9 +9,8 @@
 + fb_no <- c(sum(facebook[facebook$Facebook == "Did Not Look at Facebook" & facebook$Exam == "Pass",]$Frequency),
 +            sum(facebook[facebook$Facebook == "Did Not Look at Facebook" & facebook$Exam == "Fail",]$Frequency))
 + 
-+ facebookTable <- cbind(fb_yes, fb_no) # This table allows us to run the chi-square test in R
-+ row.names(facebookTable) <- c('pass', 'fail') # Add row names to make the output more readable
-+ 
++ facebookTable <- cbind(fb_yes, fb_no) 
++ row.names(facebookTable) <- c('pass', 'fail') 
 + View(facebookTable)
 > library(gmodels)
 + gmodels::CrossTable(facebookTable, fisher = TRUE, chisq = TRUE, expected = TRUE, sresid = TRUE, format = "SPSS")
@@ -83,3 +82,11 @@ p =  1
 
  
        Minimum expected frequency: 36.8 
+
+pd_sqrt <- ggplot(data=DK2K, aes(x=GJT_sqrt)) + 
+  geom_histogram(aes(y=..density..), colour="black", fill="white", binwidth = 1) +
+  geom_density(alpha=.5, fill= "red") +
+  scale_x_continuous(name="GJT Scores", breaks=seq(0,20,1), limits=c(0,20)) 
+
+ggplotly(pd_sqrt)
+
