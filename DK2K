@@ -7,9 +7,9 @@ install.packages("plotly")
 library(plotly)
 library(ggplot2)
 
-=============================================================================================
+####################################
 #Comparison of Under 15 and Over 15
-=============================================================================================
+####################################
 library(ggplot2)
 library(foreign)
 DK2K<-read.spss("DeKeyser2000.sav",to.data.frame = T)
@@ -64,9 +64,9 @@ d_2 <- DK2K[DK2K$Status == 'Over 15', ] # # create a new dataset to filter parti
  shapiro.test(d_1$GJTScore)
  shapiro.test(d_2$GJTScore)
 
-=============================================================================================
+####################################
 #z score transformation
-=============================================================================================
+####################################
 DK2K$GJT_z <- scale(DK2K$GJTScore)
 
 #Histogram
@@ -93,9 +93,9 @@ qqnorm(DK2K$GJT_z, main = "GJT_z"); qqline(DK2K$GJT_z)
 # Statistical test for normality
 shapiro.test(DK2K$GJT_z)
 
-=============================================================================================
+####################################
 #log transformation
-=============================================================================================
+####################################
 DK2K$GJT_log <- log(DK2K$GJTScore)
 
 #Histogram
@@ -110,9 +110,9 @@ ggplotly(ph_log)
 
 #Density plot
 pd_log <- ggplot(data=DK2K, aes(x=GJT_log)) + 
-  geom_histogram(aes(y=..density..), colour="black", fill="white", binwidth = 0.02) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white", binwidth = 0.25) +
   geom_density(alpha=.5, fill= "red") +
-  scale_x_continuous(name="GJT Scores", breaks=seq(0,6,1), limits=c(0,6)) 
+  scale_x_continuous(name="GJT Scores", breaks=seq(1,6,1), limits=c(1,6)) 
 
 ggplotly(pd_log)
 
@@ -122,9 +122,9 @@ qqnorm(DK2K$GJT_log, main = "GJT_log"); qqline(DK2K$GJT_log)
 # Statistical test for normality
 shapiro.test(DK2K$GJT_log)
 
-=============================================================================================
+####################################
 #square root transformation 
-=============================================================================================
+####################################
 DK2K$GJT_sqrt <- sqrt(DK2K$GJTScore)
 
 #Histogram
@@ -151,9 +151,9 @@ qqnorm(DK2K$GJT_sqrt, main = "GJT_sqrt"); qqline(DK2K$GJT_sqrt)
 # Statistical test for normality
 shapiro.test(DK2K$GJT_sqrt)
 
-=============================================================================================
+####################################
 #Reverse Score Transformation 
-=============================================================================================
+####################################
 DK2K$GJT_rst <- DK2K$GJTScore - max(DK2K$GJTScore, na.rm = TRUE) 
 
 #Histogram
