@@ -1,6 +1,6 @@
 rm(list = ls(all.names = TRUE))
 getwd()
-setwd("/Users/yusukekuroki/Desktop/Quant/Week3")
+setwd("")
 
 #Install Plotly
 install.packages("plotly")
