@@ -1,3 +1,12 @@
+#Install Plotly
+install.packages("plotly")
+library(plotly)
+library(ggplot2)
+
+=============================================================================================
+#Comparison of Under 15 and Over 15
+=============================================================================================
+
 getwd()
 setwd("/Users/yusukekuroki/Desktop/Quant/Week3")
 
@@ -55,42 +64,50 @@ d_2 <- DK2K[DK2K$Status == 'Over 15', ] # # create a new dataset to filter parti
  shapiro.test(d_1$GJTScore)
  shapiro.test(d_2$GJTScore)
 
+=============================================================================================
+#z score transformation
+=============================================================================================
+DK2K$GJT_z <- scale(DK2K$GJTScore)
 
 
+=============================================================================================
+#log transformation
+=============================================================================================
+DK2K$GJT_log <- log(DK2K$GJTScore)
 
 
+=============================================================================================
+#square root transformation 
+=============================================================================================
+DK2K$GJT_sqrt <- sqrt(DK2K$GJTScore)
 
-#Install Plotly
-install.packages("plotly")
-library(plotly)
-library(ggplot2)
 
-getwd()
-setwd("")
-library(foreign)
-DK2K<-read.spss("DeKeyser2000.sav",to.data.frame = T)
-GJTS_ND <- DK2K$GJTScore - max(DK2K$GJTScore, na.rm = TRUE)
-DK2K$GJTS_ND <- GJTS_ND
+=============================================================================================
+#Reverse Score Transformation 
+=============================================================================================
+DK2K$GJTS_rst <- DK2K$GJTScore - max(DK2K$GJTScore, na.rm = TRUE) 
 
 #Histogram
 library(ggplot2)
-p1 <- ggplot(data = DK2K, aes(x = GJTS_ND)) +
-    geom_histogram(binwidth = 0.5) +
-    scale_x_continuous(name = "GJT Scores", breaks = seq(-200, 0, 10)) +
-    scale_y_continuous(name = "Count", breaks = seq(0, 4, 1), limits = c(0, 4))
+ph_RST <- ggplot(data = DK2K, aes(x = GJTS_rst)) +
+    geom_histogram(colour="black", fill= "red", binwidth = 5) +
+    scale_x_continuous(name = "GJT Scores", breaks = seq(-150, 0, 10)) +
+    scale_y_continuous(name = "Count", breaks = seq(0, 8, 1))+
+    coord_cartesian(xlim = c(-150,0), ylim = c(0,8))
 
-ggplotly(p1)
+ggplotly(ph_RST)
 
 #Density plot
-p2 <- ggplot(data=DK2K, aes(x=GJTS_ND)) + 
-  geom_histogram(aes(y=..density..), colour="black", fill="white", binwidth = 0.5) +
-  geom_density(alpha=.2, fill="#FF6666") +
-  scale_x_continuous(name="GJT Scores", breaks=seq(-130,30,10), limits=c(-130,30)) 
+pd_RST <- ggplot(data=DK2K, aes(x=GJTS_rst)) + 
+  geom_histogram(aes(y=..density..), colour="black", fill="white", binwidth = 5) +
+  geom_density(alpha=.5, fill= "red") +
+  scale_x_continuous(name="GJT Scores", breaks=seq(-160,50,10), limits=c(-160,50)) 
 
-ggplotly(p2)
+ggplotly(pd_RST)
 
 # Q-Q plot
-qqnorm(DK2K$GJTS_ND, main = "GJTS_ND"); qqline(DK2K$GJTS_ND)
+qqnorm(DK2K$GJTS_rst, main = "GJTS_rst"); qqline(DK2K$GJTS_rst)
 
 # Statistical test for normality
-shapiro.test(DK2K$GJTS_ND)
+shapiro.test(DK2K$GJTS_rst)
+
