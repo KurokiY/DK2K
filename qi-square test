@@ -1,0 +1,85 @@
+> rm(list = ls(all.names = TRUE))
++ getwd()
++ setwd("/Users/yusukekuroki/Desktop/Quant/Week4")
+[1] "/Users/yusukekuroki"
+> facebook <- read.delim('Facebook.dat')
++ View(facebook) 
+> fb_yes <- c(sum(facebook[facebook$Facebook == "Looked at Facebook" & facebook$Exam == "Pass",]$Frequency),
++             sum(facebook[facebook$Facebook == "Looked at Facebook" & facebook$Exam == "Fail",]$Frequency))
++ fb_no <- c(sum(facebook[facebook$Facebook == "Did Not Look at Facebook" & facebook$Exam == "Pass",]$Frequency),
++            sum(facebook[facebook$Facebook == "Did Not Look at Facebook" & facebook$Exam == "Fail",]$Frequency))
++ 
++ facebookTable <- cbind(fb_yes, fb_no) # This table allows us to run the chi-square test in R
++ row.names(facebookTable) <- c('pass', 'fail') # Add row names to make the output more readable
++ 
++ View(facebookTable)
+> library(gmodels)
++ gmodels::CrossTable(facebookTable, fisher = TRUE, chisq = TRUE, expected = TRUE, sresid = TRUE, format = "SPSS")
+
+   Cell Contents
+|-------------------------|
+|                   Count |
+|         Expected Values |
+| Chi-square contribution |
+|             Row Percent |
+|          Column Percent |
+|           Total Percent |
+|            Std Residual |
+|-------------------------|
+
+Total Observations in Table:  260 
+
+             |  
+             |   fb_yes  |    fb_no  | Row Total | 
+-------------|-----------|-----------|-----------|
+        pass |       44  |      124  |      168  | 
+             |   67.200  |  100.800  |           | 
+             |    8.010  |    5.340  |           | 
+             |   26.190% |   73.810% |   64.615% | 
+             |   42.308% |   79.487% |           | 
+             |   16.923% |   47.692% |           | 
+             |   -2.830  |    2.311  |           | 
+-------------|-----------|-----------|-----------|
+        fail |       60  |       32  |       92  | 
+             |   36.800  |   55.200  |           | 
+             |   14.626  |    9.751  |           | 
+             |   65.217% |   34.783% |   35.385% | 
+             |   57.692% |   20.513% |           | 
+             |   23.077% |   12.308% |           | 
+             |    3.824  |   -3.123  |           | 
+-------------|-----------|-----------|-----------|
+Column Total |      104  |      156  |      260  | 
+             |   40.000% |   60.000% |           | 
+-------------|-----------|-----------|-----------|
+
+ 
+Statistics for All Table Factors
+
+
+Pearson's Chi-squared test 
+------------------------------------------------------------
+Chi^2 =  37.72602     d.f. =  1     p =  8.141145e-10 (p < .001)
+
+Pearson's Chi-squared test with Yates' continuity correction 
+------------------------------------------------------------
+Chi^2 =  36.11742     d.f. =  1     p =  1.857787e-09 
+
+ 
+Fisher's Exact Test for Count Data
+------------------------------------------------------------
+Sample estimate odds ratio:  0.1906368 
+
+Alternative hypothesis: true odds ratio is not equal to 1
+p =  1.326512e-09 
+95% confidence interval:  0.1050906 0.3397684 
+
+Alternative hypothesis: true odds ratio is less than 1
+p =  8.798576e-10 
+95% confidence interval:  0 0.3119569 
+
+Alternative hypothesis: true odds ratio is greater than 1
+p =  1 
+95% confidence interval:  0.1151419 Inf 
+
+ 
+       Minimum expected frequency: 36.8 
