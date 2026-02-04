@@ -69,27 +69,96 @@ d_2 <- DK2K[DK2K$Status == 'Over 15', ] # # create a new dataset to filter parti
 =============================================================================================
 DK2K$GJT_z <- scale(DK2K$GJTScore)
 
+#Histogram
+library(ggplot2)
+ph_z <- ggplot(data = DK2K, aes(x = GJT_z)) +
+    geom_histogram(colour="black", fill= "red", binwidth = 0.1) +
+    scale_x_continuous(name = "GJT Scores", breaks = seq(-3, 2, 1)) +
+    scale_y_continuous(name = "Count", breaks = seq(0, 5.5, 1))+
+    coord_cartesian(xlim = c(-3,2.1), ylim = c(0,5.5))
+
+ggplotly(ph_z)
+
+#Density plot
+pd_z <- ggplot(data=DK2K, aes(x=GJT_z)) + 
+  geom_histogram(aes(y=..density..), colour="black", fill="white", binwidth = 0.1) +
+  geom_density(alpha=.5, fill= "red") +
+  scale_x_continuous(name="GJT Scores", breaks=seq(-5,5,1), limits=c(-5,5)) 
+
+ggplotly(pd_z)
+
+# Q-Q plot
+qqnorm(DK2K$GJT_z, main = "GJT_z"); qqline(DK2K$GJT_z)
+
+# Statistical test for normality
+shapiro.test(DK2K$GJT_z)
 
 =============================================================================================
 #log transformation
 =============================================================================================
 DK2K$GJT_log <- log(DK2K$GJTScore)
 
+#Histogram
+library(ggplot2)
+ph_log <- ggplot(data = DK2K, aes(x = GJT_log)) +
+    geom_histogram(colour="black", fill= "red", binwidth = 0.02) +
+    scale_x_continuous(name = "GJT Scores", breaks = seq(4, 5.5, 0.5)) +
+    scale_y_continuous(name = "Count", breaks = seq(0, 6, 1))+
+    coord_cartesian(xlim = c(4,5.5), ylim = c(0,6))
+
+ggplotly(ph_log)
+
+#Density plot
+pd_log <- ggplot(data=DK2K, aes(x=GJT_log)) + 
+  geom_histogram(aes(y=..density..), colour="black", fill="white", binwidth = 0.02) +
+  geom_density(alpha=.5, fill= "red") +
+  scale_x_continuous(name="GJT Scores", breaks=seq(0,6,1), limits=c(0,6)) 
+
+ggplotly(pd_log)
+
+# Q-Q plot
+qqnorm(DK2K$GJT_log, main = "GJT_log"); qqline(DK2K$GJT_log)
+
+# Statistical test for normality
+shapiro.test(DK2K$GJT_log)
 
 =============================================================================================
 #square root transformation 
 =============================================================================================
 DK2K$GJT_sqrt <- sqrt(DK2K$GJTScore)
 
+#Histogram
+library(ggplot2)
+ph_sqrt <- ggplot(data = DK2K, aes(x = GJT_sqrt)) +
+    geom_histogram(colour="black", fill= "red", binwidth = 0.1) +
+    scale_x_continuous(name = "GJT Scores", breaks = seq(8, 15, 1)) +
+    scale_y_continuous(name = "Count", breaks = seq(0, 5.5, 1))+
+    coord_cartesian(xlim = c(8,15), ylim = c(0,5.5))
+
+ggplotly(ph_sqrt)
+
+#Density plot
+pd_sqrt <- ggplot(data=DK2K, aes(x=GJT_sqrt)) + 
+  geom_histogram(aes(y=..density..), colour="black", fill="white", binwidth = 1) +
+  geom_density(alpha=.5, fill= "red") +
+  scale_x_continuous(name="GJT Scores", breaks=seq(0,20,1), limits=c(0,20)) 
+
+ggplotly(pd_sqrt)
+
+# Q-Q plot
+qqnorm(DK2K$GJT_sqrt, main = "GJT_sqrt"); qqline(DK2K$GJT_sqrt)
+
+# Statistical test for normality
+shapiro.test(DK2K$GJT_sqrt)
 
 =============================================================================================
 #Reverse Score Transformation 
 =============================================================================================
-DK2K$GJTS_rst <- DK2K$GJTScore - max(DK2K$GJTScore, na.rm = TRUE) 
+DK2K$GJT_rst <- DK2K$GJTScore - max(DK2K$GJTScore, na.rm = TRUE) 
 
 #Histogram
 library(ggplot2)
-ph_RST <- ggplot(data = DK2K, aes(x = GJTS_rst)) +
+ph_RST <- ggplot(data = DK2K, aes(x = GJT_rst)) +
     geom_histogram(colour="black", fill= "red", binwidth = 5) +
     scale_x_continuous(name = "GJT Scores", breaks = seq(-150, 0, 10)) +
     scale_y_continuous(name = "Count", breaks = seq(0, 8, 1))+
@@ -98,7 +167,7 @@ ph_RST <- ggplot(data = DK2K, aes(x = GJTS_rst)) +
 ggplotly(ph_RST)
 
 #Density plot
-pd_RST <- ggplot(data=DK2K, aes(x=GJTS_rst)) + 
+pd_RST <- ggplot(data=DK2K, aes(x=GJT_rst)) + 
   geom_histogram(aes(y=..density..), colour="black", fill="white", binwidth = 5) +
   geom_density(alpha=.5, fill= "red") +
   scale_x_continuous(name="GJT Scores", breaks=seq(-160,50,10), limits=c(-160,50)) 
@@ -106,8 +175,8 @@ pd_RST <- ggplot(data=DK2K, aes(x=GJTS_rst)) +
 ggplotly(pd_RST)
 
 # Q-Q plot
-qqnorm(DK2K$GJTS_rst, main = "GJTS_rst"); qqline(DK2K$GJTS_rst)
+qqnorm(DK2K$GJT_rst, main = "GJT_rst"); qqline(DK2K$GJT_rst)
 
 # Statistical test for normality
-shapiro.test(DK2K$GJTS_rst)
+shapiro.test(DK2K$GJT_rst)
 
