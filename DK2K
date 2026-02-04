@@ -64,6 +64,33 @@ d_2 <- DK2K[DK2K$Status == 'Over 15', ] # # create a new dataset to filter parti
  shapiro.test(d_1$GJTScore)
  shapiro.test(d_2$GJTScore)
 
+###################################
+#Raw Data
+###################################
+#Histogram
+library(ggplot2)
+ph <- ggplot(data = DK2K, aes(x = GJTScore)) +
+    geom_histogram(colour="black", fill= "red", binwidth = 5) +
+    scale_x_continuous(name = "GJT Scores", breaks = seq(50, 200, 10)) +
+    scale_y_continuous(name = "Count", breaks = seq(0, 8, 1))+
+    coord_cartesian(xlim = c(50,200), ylim = c(0,8))
+
+ggplotly(ph)
+
+#Density plot
+pd <- ggplot(data=DK2K, aes(x=GJTScore)) + 
+  geom_histogram(aes(y=..density..), colour="black", fill="white", binwidth = 5) +
+  geom_density(alpha=.5, fill= "red") +
+  scale_x_continuous(name="GJT Score", breaks=seq(30,250,10), limits=c(30,250)) 
+
+ggplotly(pd)
+
+# Q-Q plot
+qqnorm(DK2K$GJTScore, main = "GJT Score"); qqline(DK2K$GJTScore)
+
+# Statistical test for normality
+shapiro.test(DK2K$GJTScore)
+
 ####################################
 #z score transformation
 ####################################
