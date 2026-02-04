@@ -1,0 +1,26 @@
+rm(list = ls(all.names = TRUE))
+getwd()
+setwd("/Users/yusukekuroki/Desktop/Quant/Week4")
+
+#Install Plotly
+install.packages("plotly")
+library(plotly)
+library(ggplot2)
+
+library(ggplot2)
+library(foreign)
+NSS<-read.spss("GeeslinGF3_5.sav",to.data.frame = T)
+
+View(NSS) 
+1 <- sum(NSS[Item15$1 == "1", ]$Frequency)
+2 <- sum(NSS[Item15$2 == "2", ]$Frequency)
+3 <- sum(NSS[Item15$3 == "3", ]$Frequency)
+Table <- cbind(1, 2, 3)
+Table
+
+Table <- cbind(1,2,3) 
+
+row.names(facebookTable) <- c('pass', 'fail') 
+View(facebookTable)
+library(gmodels)
+gmodels::CrossTable(facebookTable, fisher = TRUE, chisq = TRUE, expected = TRUE, sresid = TRUE, format = "SPSS")
