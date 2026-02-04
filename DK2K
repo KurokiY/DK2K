@@ -1,3 +1,6 @@
+getwd()
+setwd("/Users/yusukekuroki/Desktop/Quant/Week3")
+
 library(ggplot2)
 library(foreign)
 DK2K<-read.spss("DeKeyser2000.sav",to.data.frame = T)
@@ -6,7 +9,7 @@ d_1 <- DK2K[DK2K$Status == 'Under 15', ] # create a new dataset to filter partip
 d_2 <- DK2K[DK2K$Status == 'Over 15', ] # # create a new dataset to filter partipants who were 'Over 15'
  
 # Histogram
-p1<-ggplot(data=d_1, aes(x=GJTScore)) +
+　p1<-ggplot(data=d_1, aes(x=GJTScore)) +
    geom_histogram(binwidth = 5) +
    scale_x_continuous(name="GJTS_centered", breaks=seq(50,200,10)) +
    scale_y_continuous(name="Count", breaks=seq(0,9,1))+
@@ -22,7 +25,7 @@ p1<-ggplot(data=d_1, aes(x=GJTScore)) +
    coord_cartesian(xlim = c(75,200), ylim = c(0,9))
  ggplotly(p2)
  
- ## plot the two graphs together
+## plot the two graphs together
  p3<-ggplot(data=DK2K, aes(x=GJTScore)) + 
    facet_wrap(~Status, nrow = 1)+
    geom_histogram(binwidth = 5) +
@@ -33,43 +36,24 @@ p1<-ggplot(data=d_1, aes(x=GJTScore)) +
    coord_cartesian(xlim = c(75,200), ylim = c(0,9))
  ggplotly(p3)
  
- # Density plot
+# Density plot
  p4 <- ggplot(data=DK2K, aes(x=GJTScore)) + 
    facet_wrap(~Status, nrow = 1)+
    geom_histogram(aes(y=..density..), colour="black", fill="white", binwidth = 5) +
-   geom_density(alpha=.2, fill="#FF6666") +
-   scale_x_continuous(name="GJT Scores", breaks=seq(75,200,25), limits=c(75,200)) 
+   geom_density(alpha=.5, fill="red") +
+   scale_x_continuous(name="GJT Scores", breaks=seq(60,220,25), limits=c(60,220)) 
  ggplotly(p4)
- # Histogram
- p1<-ggplot(data=d_1, aes(x=GJTScore)) +
-   geom_histogram(binwidth = 5) +
-   scale_x_continuous(name="GJTS_centered", breaks=seq(50,200,10)) +
-   scale_y_continuous(name="Count", breaks=seq(0,9,1))+
-   coord_cartesian(xlim = c(75,200), ylim = c(0,9))
- ggplotly(p1)
- 
- p2<-ggplot(data=d_2, aes(x=GJTScore)) +
-   geom_histogram(binwidth = 5) +
-   scale_x_continuous(name="GJT Scores (Over 15)", 
-                      breaks=seq(50,200,10), 
-                      limits=c(75,200)) +
-   scale_y_continuous(name="Count", breaks=seq(0,9,1)) +
-   coord_cartesian(xlim = c(75,200), ylim = c(0,9))
- ggplotly(p2)
- 
- ## plot the two graphs together
- p3<-ggplot(data=DK2K, aes(x=GJTScore)) + 
-   facet_wrap(~Status, nrow = 1)+
-   geom_histogram(binwidth = 5) +
-   scale_x_continuous(name="GJT Scores",
-                      breaks=seq(75,200,20)) +
-   scale_y_continuous(name="Count",
-                      breaks=seq(0,9,1)) +
-   coord_cartesian(xlim = c(75,200), ylim = c(0,9))
- ggplotly(p3)
 
+# Q-Q plot
+ par(mfrow = c(1,2)) # allows to arrange multiple plots in the same plotting space
 
+# par(mfrow = c(#rows, #cols))
+ qqnorm(d_1$GJTScore, main = "GJT Scores (Under 15)"); qqline(d_1$GJTScore)
+ qqnorm(d_2$GJTScore, main = "GJT Scores (Over 15)"); qqline(d_2$GJTScore)
 
+# Statistical test for normality
+ shapiro.test(d_1$GJTScore)
+ shapiro.test(d_2$GJTScore)
 
 
 
